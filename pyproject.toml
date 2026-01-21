@@ -1,0 +1,81 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hamletmachine-llm"
+version = "0.1.0"
+description = "Lightweight Language Model for Hamletmachine play - Training pipeline and inference"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [
+    {name = "Danzhe Chen", email = ""}
+]
+keywords = ["llm", "language-model", "transformers", "huggingface", "hamletmachine"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Text Processing :: Linguistic",
+]
+
+dependencies = [
+    "transformers>=4.35.0",
+    "datasets>=2.14.0",
+    "accelerate>=0.24.0",
+    "tokenizers>=0.15.0",
+    "torch>=2.1.0",
+    "numpy>=1.24.0",
+    "pandas>=2.0.0",
+    "striprtf>=0.0.26",
+    "tensorboard>=2.15.0",
+    "tqdm>=4.66.0",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "black>=23.11.0",
+    "flake8>=6.1.0",
+    "mypy>=1.7.0",
+    "jupyter>=1.0.0",
+    "ipykernel>=6.26.0",
+]
+wandb = [
+    "wandb>=0.16.0",
+]
+
+[project.scripts]
+hamletmachine-train = "hamletmachine.cli:train"
+hamletmachine-eval = "hamletmachine.cli:eval"
+hamletmachine-infer = "hamletmachine.cli:infer"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.black]
+line-length = 100
+target-version = ['py39', 'py310', 'py311']
+include = '\.pyi?$'
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --cov=hamletmachine --cov-report=html --cov-report=term"

@@ -1,0 +1,74 @@
+# Example Training Configuration
+# Copy this file to train_config.yaml and adjust values as needed
+
+# Model Configuration
+model:
+  # Model architecture: "gpt2", "gpt2-medium", "gpt2-large", "gpt2-xl", or "from_scratch"
+  architecture: "gpt2"  # Start with small model, adjust based on hardware
+  # If from_scratch, specify these:
+  vocab_size: 50257  # GPT-2 default
+  n_positions: 1024  # Maximum sequence length
+  n_ctx: 1024
+  n_embd: 768
+  n_layer: 12
+  n_head: 12
+
+# Training Configuration
+training:
+  output_dir: "models/checkpoints"
+  num_train_epochs: 3
+  per_device_train_batch_size: 4  # Adjust based on GPU memory
+  per_device_eval_batch_size: 4
+  gradient_accumulation_steps: 4  # Effective batch size = batch_size * gradient_accumulation_steps
+  learning_rate: 5.0e-5
+  warmup_steps: 100
+  logging_steps: 10
+  save_steps: 500
+  eval_steps: 500
+  save_total_limit: 3  # Keep only last 3 checkpoints
+  prediction_loss_only: true
+  remove_unused_columns: false
+  dataloader_pin_memory: true
+  fp16: false  # Set to true if using modern GPU with Tensor Cores
+  fp16_opt_level: "O1"
+
+# Data Configuration
+data:
+  train_file: "data/processed/train.jsonl"
+  validation_file: "data/processed/validation.jsonl"
+  test_file: "data/processed/test.jsonl"
+  max_seq_length: 1024
+  preprocessing_num_workers: 4
+  overwrite_cache: false
+
+# Tokenizer Configuration
+tokenizer:
+  # Use existing tokenizer or train custom one
+  use_existing: true  # If false, will train custom tokenizer
+  tokenizer_name: "gpt2"  # Hugging Face tokenizer name
+  # Custom tokenizer settings (if use_existing: false)
+  vocab_size: 50257
+  model_max_length: 1024
+
+# Evaluation Configuration
+evaluation:
+  metrics:
+    - "perplexity"
+    - "loss"
+  # Custom evaluation can be added here
+
+# Logging Configuration
+logging:
+  # Options: "tensorboard", "wandb", "none"
+  logger: "tensorboard"
+  logging_dir: "logs"
+  # WandB settings (if using wandb)
+  wandb_project: "hamletmachine-llm"
+  wandb_run_name: null  # Auto-generated if null
+
+# Hardware Configuration
+hardware:
+  # Use Hugging Face Accelerate for multi-GPU/distributed training
+  use_accelerate: false
+  # Number of GPUs (0 = CPU, 1 = single GPU, >1 = multi-GPU)
+  num_gpus: 1

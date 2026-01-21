@@ -1,0 +1,60 @@
+# Example Data Processing Configuration
+# Copy this file to data_config.yaml and adjust values as needed
+
+# Input Data
+input:
+  # Directory containing raw training materials (RTF files)
+  raw_data_dir: "training_materials"
+  # File patterns to include (glob patterns)
+  file_patterns:
+    - "*.rtf"
+    - "*.txt"
+
+# Data Processing
+processing:
+  # Text cleaning options
+  remove_headers: true  # Remove headers (URLs, copyright, metadata)
+  remove_footers: true  # Remove footers (page numbers, end markers)
+  normalize_whitespace: true  # Normalize whitespace (spaces, line breaks)
+  
+  # Length filtering (disabled by default to preserve plays/dialogue)
+  # Set filter_by_length: true to enable filtering of short texts
+  min_text_length: 1  # Minimum characters (only used if filter_by_length=true)
+  max_text_length: null  # Maximum characters (null = no truncation, formatting handles chunking)
+  filter_by_length: false  # Set to true to filter out short texts (not recommended for plays)
+  
+  # Chunking strategy for language modeling
+  chunk_size: 512  # Tokens per chunk
+  chunk_overlap: 50  # Overlap between chunks (tokens)
+  
+  # Encoding
+  encoding: "utf-8"
+  handle_encoding_errors: "replace"  # Options: "strict", "replace", "ignore"
+
+# Output Data
+output:
+  # Output directory for processed datasets
+  output_dir: "data/processed"
+  # Dataset format: "jsonl", "parquet", or "arrow"
+  format: "jsonl"
+  # Train/validation/test split ratios (must sum to 1.0)
+  train_ratio: 0.8
+  validation_ratio: 0.1
+  test_ratio: 0.1
+  # Random seed for reproducibility
+  random_seed: 42
+
+# Tokenization (pre-processing)
+tokenization:
+  # Tokenizer to use (Hugging Face Hub name or local path)
+  tokenizer_name: "gpt2"
+  # Maximum sequence length (None = use tokenizer default)
+  model_max_length: null
+  # Whether to tokenize during data processing (vs. during training)
+  # If true, datasets will include input_ids and attention_mask fields
+  pre_tokenize: false
+  # Cache tokenized data (speeds up reprocessing)
+  cache_tokenized: true
+  cache_dir: "data/cache"
+  # Optional: Custom special tokens (e.g., {"pad_token": "<pad>"})
+  # special_tokens: null

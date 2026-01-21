@@ -1,0 +1,86 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Jupyter Notebook
+.ipynb_checkpoints
+# Allow notebooks in notebooks/ directory for Colab
+!notebooks/*.ipynb
+
+# PyTorch / TensorFlow
+*.pth
+*.pt
+*.ckpt
+*.h5
+*.pb
+
+# Model Checkpoints & Artifacts
+models/checkpoints/
+models/pretrained/
+*.bin
+*.safetensors
+
+# Data (keep structure, ignore large files)
+data/processed/
+data/cache/
+*.cache
+
+# Logs & Outputs
+logs/
+outputs/
+runs/
+wandb/
+tensorboard/
+
+# Environment Variables
+.env
+.env.local
+
+# Hugging Face Cache
+.cache/
+huggingface/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# OS
+.DS_Store
+Thumbs.db

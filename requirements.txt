@@ -1,0 +1,35 @@
+# Core Hugging Face Ecosystem
+transformers>=4.35.0
+datasets>=2.14.0
+accelerate>=0.24.0
+tokenizers>=0.15.0
+
+# Deep Learning Framework (PyTorch - default, uncomment TensorFlow if preferred)
+torch>=2.1.0
+# tensorflow>=2.15.0  # Alternative to PyTorch
+
+# Data Processing
+numpy>=1.24.0
+pandas>=2.0.0
+
+# RTF File Processing
+striprtf>=0.0.26  # For reading RTF training materials
+
+# Training & Monitoring
+tensorboard>=2.15.0
+# wandb>=0.16.0  # Optional: Weights & Biases for experiment tracking (install separately if needed: pip install wandb)
+
+# Utilities
+tqdm>=4.66.0  # Progress bars
+pyyaml>=6.0  # Configuration files
+
+# Development & Testing
+pytest>=7.4.0
+pytest-cov>=4.1.0
+black>=23.11.0
+flake8>=6.1.0
+mypy>=1.7.0
+
+# Jupyter (optional, for notebooks - install separately if needed)
+# jupyter>=1.0.0
+# ipykernel>=6.26.0
