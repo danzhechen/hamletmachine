@@ -5,9 +5,11 @@ This guide walks you through setting up and running hamletmachine LLM training o
 ## Why Colab?
 
 - **Free GPU access**: T4 GPU (16GB VRAM) on free tier
+- **🎓 Colab Pro (Free for Students)**: Better GPUs (P100, V100), longer sessions (24h), more RAM
 - **No setup required**: Everything runs in the browser
 - **Easy sharing**: Share notebooks with collaborators
 - **Google Drive integration**: Save checkpoints to Drive
+- **Auto-optimization**: Notebook automatically detects your GPU and optimizes settings
 
 ## Prerequisites
 
@@ -236,6 +238,21 @@ data:
 - **Idle timeout**: 90 minutes of inactivity
 - **GPU availability**: May not always get GPU (especially during peak hours)
 - **RAM**: Limited (may need to reduce batch size)
+
+### 🎓 Colab Pro Benefits (Free for Students)
+
+If you have Colab Pro (free for students), you get:
+
+- **Better GPUs**: P100 (16GB) or V100 (16GB/32GB) instead of just T4
+- **Longer Sessions**: Up to 24 hours (vs ~9-12 hours on free tier)
+- **More RAM**: Better for larger models and datasets
+- **Better Availability**: Priority GPU access
+- **Auto-Optimization**: The notebook automatically detects your GPU and optimizes:
+  - Model size (small on T4, medium/large on P100/V100)
+  - Batch sizes (larger on better GPUs)
+  - Training configuration
+
+**The notebook will automatically detect your GPU type and optimize settings!**
 
 ### Tips for Success
 
