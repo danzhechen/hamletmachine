@@ -56,7 +56,10 @@ models/pretrained/
 *.safetensors
 
 # Data (keep structure, ignore large files)
-data/processed/
+data/processed/*
+!data/processed/train.jsonl
+!data/processed/validation.jsonl
+!data/processed/test.jsonl
 data/cache/
 *.cache
 
