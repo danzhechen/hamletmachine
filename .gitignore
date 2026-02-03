@@ -55,8 +55,11 @@ models/pretrained/
 *.bin
 *.safetensors
 
-# Data (regenerate with process_data.py after clone; do not commit large jsonl)
-data/processed/
+# Data (processed splits committed for Colab clone; cache/staged regenerated)
+data/processed/*
+!data/processed/train.jsonl
+!data/processed/validation.jsonl
+!data/processed/test.jsonl
 data/cache/
 data/staged/
 *.cache
