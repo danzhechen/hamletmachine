@@ -81,16 +81,34 @@ hamletmachine/
 
 #### Option 2: Google Colab (Recommended for Free GPU Training)
 
-Train on Google Colab's free T4 GPU without local setup:
+Train on Google Colab's free T4 GPU without local setup.
 
-1. **Open the Colab notebook**:
-   - Upload `notebooks/train_on_colab.ipynb` to [Google Colab](https://colab.research.google.com)
-   - Or open directly if your repo is on GitHub
+**Clone repo in Colab and run:**
 
-2. **Enable GPU**:
-   - Runtime → Change runtime type → Hardware accelerator → **GPU (T4)**
+1. **Clone the repo** (in a Colab cell or terminal):
+   ```bash
+   !git clone https://github.com/YOUR_USERNAME/hamletmachine.git
+   %cd hamletmachine
+   ```
 
-3. **Follow the notebook cells** - everything is automated!
+2. **Install dependencies**:
+   ```bash
+   !pip install -r requirements.txt
+   ```
+
+3. **Generate processed data** (creates `data/processed/train.jsonl`, etc.):
+   ```bash
+   !python scripts/process_data.py --use-balanced-dataset --config configs/data_config.yaml
+   ```
+   If you don't have `configs/data_config.yaml`, copy from the example first:
+   ```bash
+   !cp configs/data_config.yaml.example configs/data_config.yaml
+   ```
+
+4. **Open the training notebook** and run all cells:
+   - File → Open notebook → `notebooks/train_on_colab.ipynb`
+   - Runtime → Change runtime type → **GPU (T4)**
+   - Run all cells
 
 📖 **See [Colab Setup Guide](./docs/colab-setup-guide.md) for detailed instructions.**
 
@@ -98,10 +116,11 @@ Train on Google Colab's free T4 GPU without local setup:
 
 ### 1. Data Preparation
 
-Process the training materials:
+Process the training materials (balanced dataset: oversample Hamletmachine, then clean/split):
 ```bash
-python scripts/prepare_data.py --input training_materials/ --output data/processed/
+python scripts/process_data.py --use-balanced-dataset --config configs/data_config.yaml
 ```
+Or without oversampling: `python scripts/process_data.py --config configs/data_config.yaml`
 
 ### 2. Train Model
 

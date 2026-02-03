@@ -10,6 +10,19 @@ input:
     - "*.rtf"
     - "*.txt"
 
+  # Optional: source weights for balanced dataset (Hamletmachine oversampling)
+  # If use_balanced_dataset is true, build_balanced_dataset uses these before pipeline
+  use_balanced_dataset: false
+  sources:
+    - path: "Hamletmachine_ENG.txt"
+      weight: 20
+    - path: "pg100.txt"
+      weight: 1
+    - path: "DasKapital_ENG.txt"
+      weight: 1
+    - path: "Hamlet_Gutenberg.txt"
+      weight: 1
+
 # Data Processing
 processing:
   # Text cleaning options

@@ -3,6 +3,8 @@
 Data processing script.
 
 This script runs the data extraction and cleaning pipeline on training materials.
+Optionally runs build_balanced_dataset first (use_balanced_dataset: true or
+--use-balanced-dataset) to oversample Hamletmachine and then process from data/staged.
 """
 
 import sys
@@ -10,7 +12,8 @@ import logging
 from pathlib import Path
 
 # Add src to path
-sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
 from hamletmachine.data import DataProcessingPipeline, load_data_config
 
@@ -63,6 +66,12 @@ def main():
         action='store_true',
         help='Skip dataset splitting (save full dataset only)'
     )
+    parser.add_argument(
+        '--use-balanced-dataset',
+        action='store_true',
+        default=None,
+        help='Run build_balanced_dataset first, then process from data/staged (overrides config)'
+    )
     
     args = parser.parse_args()
     
@@ -76,6 +85,28 @@ def main():
     else:
         logger.info("Using default configuration")
         config = None
+    
+    # Optional: build balanced dataset first (oversample Hamletmachine, then process staged)
+    use_balanced = args.use_balanced_dataset
+    if use_balanced is None and config:
+        use_balanced = config.get("input", {}).get("use_balanced_dataset", False)
+    if use_balanced:
+        import subprocess
+        config_path = args.config or (PROJECT_ROOT / "configs" / "data_config.yaml")
+        if config_path and not config_path.is_absolute():
+            config_path = PROJECT_ROOT / config_path
+        build_script = PROJECT_ROOT / "scripts" / "build_balanced_dataset.py"
+        subprocess.run(
+            [sys.executable, str(build_script), "--config", str(config_path)],
+            check=True,
+            cwd=str(PROJECT_ROOT),
+        )
+        staged_dir = PROJECT_ROOT / "data" / "staged"
+        # Run pipeline on staged dir with .txt only
+        if args.input_dir is None:
+            args = type(args)(**{**vars(args), "input_dir": staged_dir, "file_patterns": ["*.txt"]})
+        else:
+            args = type(args)(**{**vars(args), "file_patterns": args.file_patterns or ["*.txt"]})
     
     # Create pipeline
     if config:

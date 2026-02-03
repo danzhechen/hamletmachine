@@ -55,12 +55,10 @@ models/pretrained/
 *.bin
 *.safetensors
 
-# Data (keep structure, ignore large files)
-data/processed/*
-!data/processed/train.jsonl
-!data/processed/validation.jsonl
-!data/processed/test.jsonl
+# Data (regenerate with process_data.py after clone; do not commit large jsonl)
+data/processed/
 data/cache/
+data/staged/
 *.cache
 
 # Logs & Outputs

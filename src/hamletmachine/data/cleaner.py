@@ -78,6 +78,11 @@ class TextCleaner:
         }
         
         cleaned = text
+
+        # Project Gutenberg: strip everything before "*** START OF ... ***" and after "*** END OF ... ***"
+        cleaned = self._strip_project_gutenberg_boilerplate(cleaned)
+        if len(cleaned) < original_length:
+            stats["operations_applied"].append("pg_boilerplate_removal")
         
         # Remove headers (first N lines, typically copyright/header info)
         if self.remove_headers:
@@ -120,6 +125,35 @@ class TextCleaner:
         stats["characters_removed"] = original_length - len(cleaned)
         
         return cleaned, stats
+
+    def _strip_project_gutenberg_boilerplate(self, text: str) -> str:
+        """
+        Remove Project Gutenberg header/footer: keep only content between
+        "*** START OF THE PROJECT GUTENBERG EBOOK ... ***" and
+        "*** END OF THE PROJECT GUTENBERG EBOOK ... ***".
+        If markers are not found, return text unchanged.
+        """
+        lines = text.split('\n')
+        start_i = None
+        end_i = None
+        for i, line in enumerate(lines):
+            stripped = line.strip().upper()
+            if '*** START OF' in stripped and 'PROJECT GUTENBERG' in stripped:
+                start_i = i + 1  # content starts after the START line
+                break
+        for i in range(len(lines) - 1, -1, -1):
+            stripped = lines[i].strip().upper()
+            if '*** END OF' in stripped and 'PROJECT GUTENBERG' in stripped:
+                end_i = i  # content ends before the END line
+                break
+        if start_i is not None and end_i is not None and start_i < end_i:
+            result = '\n'.join(lines[start_i:end_i])
+            logger.debug(
+                "Removed Project Gutenberg boilerplate: kept lines %s-%s (of %s)",
+                start_i + 1, end_i, len(lines)
+            )
+            return result
+        return text
     
     def _remove_headers(self, text: str, lines_to_check: int = 15) -> str:
         """

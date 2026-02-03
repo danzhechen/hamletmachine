@@ -62,7 +62,7 @@ def get_default_config() -> Dict[str, Any]:
     return {
         'input': {
             'raw_data_dir': 'training_materials',
-            'file_patterns': ['*.rtf']
+            'file_patterns': ['*.rtf', '*.txt']
         },
         'processing': {
             'remove_headers': True,
